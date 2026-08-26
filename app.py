@@ -19,6 +19,8 @@ def download():
     """Download a file from the uploads directory."""
     filename = request.args.get("file")
     filepath = os.path.join(BASE_DIR, filename)
+    if os.path.commonpath([os.path.realpath(str(filepath)), os.path.realpath(str(BASE_DIR))]) != os.path.realpath(str(BASE_DIR)):
+        raise PermissionError("Path traversal denied")
     return send_file(filepath)
 
 
